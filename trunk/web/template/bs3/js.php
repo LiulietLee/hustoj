@@ -30,8 +30,7 @@ $(document).ready(function(){
   $(".jumbotron").prepend(msg);
   $("form").append("<div id='csrf' />");
   $("#csrf").load("<?php echo $path_fix?>csrf.php");
-  $("body").append("<div id=footer class=center >GPLv2 licensed by <a href='https://github.com/zhblue/hustoj' >HUSTOJ</a> "+(new Date()).getFullYear()+" </div>");
-  $("body").append("<div class=center > <img src='http://hustoj.com/wx.jpg' width='120px'><img src='http://hustoj.com/alipay.png' width='120px'><br> 欢迎关注微信公众号onlinejudge</div>");
+  $("body").append("<div id=footer class=center >GPLv2 licensed by <a href='https://github.com/LiulietLee/hustoj' >HUSTOJ</a> "+(new Date()).getFullYear()+" </div>");
 });
 
 $(".hint pre").each(function(){
