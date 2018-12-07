@@ -17,7 +17,7 @@
 	$view_news="";
 	$sql=	"select * "
 			."FROM `news` "
-			."WHERE `defunct`!='Y'"
+			."WHERE `defunct`!='Y' AND `news_id`!=1005 "
 			."ORDER BY `importance` ASC,`time` DESC "
 			."LIMIT 50";
 	$result=mysql_query_cache($sql);//mysql_escape_string($sql));
