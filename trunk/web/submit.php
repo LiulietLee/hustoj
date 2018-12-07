@@ -16,10 +16,10 @@ $user_id=$_SESSION[$OJ_NAME.'_'.'user_id'];
          $row=$result[0];
         if($row[0]>50) $OJ_VCODE=true;
         
-if($OJ_VCODE)$vcode=$_POST["vcode"];
+if($OJ_VCODE_SUBMIT_CODE)$vcode=$_POST["vcode"];
 $err_str="";
 $err_cnt=0;
-if($OJ_VCODE&&($_SESSION[$OJ_NAME.'_'."vcode"]==null||$vcode!= $_SESSION[$OJ_NAME.'_'."vcode"]||$vcode==""||$vcode==null) ){
+if($OJ_VCODE_SUBMIT_CODE&&($_SESSION[$OJ_NAME.'_'."vcode"]==null||$vcode!= $_SESSION[$OJ_NAME.'_'."vcode"]||$vcode==""||$vcode==null) ){
         $_SESSION[$OJ_NAME.'_'."vcode"]=null;
         $err_str=$err_str."Verification Code Wrong!\\n";
         $err_cnt++;
