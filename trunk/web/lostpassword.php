@@ -10,7 +10,6 @@ $lost_email = $_POST['email'];
 
 if (isset($_POST['vcode'])) $vcode = trim($_POST['vcode']);
 if ($lost_user_id && ($vcode != $_SESSION[$OJ_NAME . '_' . "vcode"] || $vcode == "" || $vcode == null)) {
-    global $MSG_VCODE_WRONG;
     echo "<script language='javascript'>";
     echo "alert('$MSG_VCODE_WRONG');";
     echo "history.go(-1);";
