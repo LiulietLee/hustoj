@@ -21,7 +21,6 @@ if (!$result) {
     $view_news .= "<table width=96%>";
 
     foreach ($result as $row) {
-        $view_news .= "<tr><td><td><big><b>" . $row['title'] . "</b></big>-<small>[" . $row['user_id'] . "]</small></tr>";
         $view_news .= "<tr><td><td>" . $row['content'] . "</tr>";
     }
     $view_news .= "</table>";
