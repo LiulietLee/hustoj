@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once("oj-header.php");
+require_once("../include/my_func.inc.php");
 
 if (!isset($_SESSION[$OJ_NAME . '_' . 'user_id'])) {
     require_once("oj-header.php");
@@ -22,18 +23,8 @@ function getVcodeWrongMsg() {
     return $MSG_VCODE_WRONG;
 }
 
-function getEscapeString($str) {
-//    $list = ['script', 'src'];
-//    foreach ($list as $item) {
-//        $str = str_ireplace($item, 'k-onsaikou!', $str);
-//    }
-//    return $str;
-
-    return htmlentities($str);
-}
-
-$content = getEscapeString($_POST['content']);
-$title = getEscapeString($_POST['title']);
+$content = RemoveXSS($_POST['content']);
+$title = RemoveXSS($_POST['title']);
 
 if (strlen($content) > 5000) {
     require_once("oj-header.php");
