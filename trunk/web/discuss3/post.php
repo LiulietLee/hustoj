@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once("oj-header.php");
+
 if (!isset($_SESSION[$OJ_NAME . '_' . 'user_id'])) {
     require_once("oj-header.php");
     echo "<a href=loginpage.php>Please Login First</a>";
@@ -22,18 +23,23 @@ if (strlen($_POST['title']) > 60) {
     exit(0);
 }
 
-function goBack() {
+function goBack($message) {
     echo "<script language='javascript'>\n";
-    echo "alert('Verify Code Wrong!');\n";
+    echo "alert('$message');\n";
     echo "history.go(-1);\n";
     echo "</script>";
     exit(0);
 }
 
+function getVcodeWrongMsg() {
+    global $MSG_VCODE_WRONG;
+    return $MSG_VCODE_WRONG;
+}
+
 $vcode = "";
 if (isset($_POST['vcode'])) $vcode = trim($_POST['vcode']);
 if ($OJ_VCODE && ($vcode != $_SESSION[$OJ_NAME . '_' . "vcode"] || $vcode == "" || $vcode == null)) {
-    goBack();
+    goBack(getVcodeWrongMsg());
 }
 
 $tid = null;
@@ -47,14 +53,22 @@ if ($_REQUEST['action'] == 'new') {
             $cid = intval($_REQUEST['cid']);
         else
             $cid = 0;
+
+        $pidWrongMsg = "问题标号只能填四位数字哦";
+        $numLen = strlen($pid);
+        if ($numLen == 4) {
+            $pattern = "/\d\d\d\d/";
+            $valid = preg_match($pattern, $pid);
+            if (!$valid) goBack($pidWrongMsg);
+        } else if ($pid != 0) {
+            goBack($pidWrongMsg);
+        }
+
         if ($pid == 0) {
             if ($cid > 0) {
                 $problem_id = htmlentities($_POST['pid'], ENT_QUOTES, 'UTF-8');
-//					echo "problem_id:".$problem_id;
                 $num = strpos($PID, $problem_id);
-//					echo "num:$num";
                 $pid = pdo_query("select problem_id from contest_problem where contest_id=? and num=?", $cid, $num)[0][0];
-//					echo "pid:$pid";
             }
 
         }
@@ -70,6 +84,7 @@ if ($_REQUEST['action'] == 'new') {
     } else
         echo('Error!');
 }
+
 if ($_REQUEST['action'] == 'reply' || !is_null($tid)) {
     if (is_null($tid)) $tid = intval($_POST['tid']);
     if (!is_null($tid) && array_key_exists('content', $_POST) && $_POST['content'] != '') {
@@ -98,5 +113,6 @@ if ($_REQUEST['action'] == 'reply' || !is_null($tid)) {
         }
     } else echo('Error!');
 }
+
 require_once("../oj-footer.php");
 ?>

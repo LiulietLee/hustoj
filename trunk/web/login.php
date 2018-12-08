@@ -1,12 +1,12 @@
 <?php
-require_once("./include/db_info.inc.php");
+require_once('./include/db_info.inc.php');
 require_once('./include/setlang.php');
 $vcode = "";
 if (isset($_POST['vcode'])) $vcode = trim($_POST['vcode']);
 if ($OJ_VCODE && ($vcode != $_SESSION[$OJ_NAME . '_' . "vcode"] || $vcode == "" || $vcode == null)) {
-    echo "<script language='javascript'>\n";
-    echo "alert('Verify Code Wrong!');\n";
-    echo "history.go(-1);\n";
+    echo "<script language='javascript'>";
+    echo "alert('$MSG_VCODE_WRONG');";
+    echo "history.go(-1);";
     echo "</script>";
     exit(0);
 }
