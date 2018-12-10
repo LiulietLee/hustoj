@@ -25,7 +25,7 @@ $lock = false;
 $lock_time = date("Y-m-d H:i:s", time());
 $sql = "WHERE problem_id>0 ";
 if (isset($_GET['cid'])) {
-    $cid = intval($_GET['cid'], ENT_QUOTES);
+    $cid = intval($_GET['cid']);
     $sql = $sql . " AND `contest_id`='$cid' and num>=0 ";
     $str2 = $str2 . "&cid=$cid";
     $sql_lock = "SELECT `start_time`,`title`,`end_time` FROM `contest` WHERE `contest_id`=?";
@@ -35,8 +35,6 @@ if (isset($_GET['cid'])) {
     $end_time = 0;
     if ($rows_cnt > 0) {
         $row = $result[0];
-        print_r($row);
-        echo "hello";
         $start_time = strtotime($row[0]);
         $title = $row[1];
         $end_time = strtotime($row[2]);
@@ -179,7 +177,6 @@ $last = 0;
 for ($i = 0; $i < $rows_cnt; $i++) {
 
     $row = $result[$i];
-    echo "hello". "<br>";
     //$view_status[$i]=$row;
     if ($i == 0 && $row['result'] < 4) $last = $row['solution_id'];
 
