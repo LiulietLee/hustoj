@@ -9,7 +9,7 @@
 static 	$DB_HOST="localhost";
 static 	$DB_NAME="jol";
 static 	$DB_USER="root";
-static 	$DB_PASS="root";
+static 	$DB_PASS="";
 
 static 	$OJ_NAME="HUSTOJ";
 static 	$OJ_HOME="./";
@@ -26,7 +26,8 @@ static  $OJ_ACE_EDITOR=true;
 static  $OJ_AUTO_SHARE=false;//true: One can view all AC submit if he/she has ACed it onece.
 static  $OJ_CSS="white.css";
 static  $OJ_SAE=false; //using sina application engine
-static  $OJ_VCODE=false;
+static  $OJ_VCODE=true;
+static  $OJ_VCODE_SUBMIT_CODE = false;
 static  $OJ_APPENDCODE=false;
 static  $OJ_CE_PENALTY=false;
 static  $OJ_PRINTER=false;
