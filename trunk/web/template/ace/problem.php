@@ -44,7 +44,7 @@ echo "<span class=green>$MSG_SOVLED: </span>".$row['accepted']."<br>";
 if ($pr_flag){
 echo "[<a href='submitpage.php?id=$id'>$MSG_SUBMIT</a>]";
 }else{
-echo "[<a href='submitpage.php?cid=$cid&pid=$pid&langmask=$langmask'>$MSG_SUBMIT</a>]";
+echo "[<a href='submitpage.php?cid=$cid&pid=$pid&langmask=$langMask'>$MSG_SUBMIT</a>]";
 }
 echo "[<a href='problemstatus.php?id=".$row['problem_id']."'>$MSG_STATUS</a>]";
 echo "[<a href='bbs.php?pid=".$row['problem_id']."$ucid'>$MSG_BBS</a>]";
@@ -89,7 +89,7 @@ echo "<!--EndMarkForVirtualJudge-->";
 if ($pr_flag){
 echo "[<a href='submitpage.php?id=$id'>$MSG_SUBMIT</a>]";
 }else{
-echo "[<a href='submitpage.php?cid=$cid&pid=$pid&langmask=$langmask'>$MSG_SUBMIT</a>]";
+echo "[<a href='submitpage.php?cid=$cid&pid=$pid&langmask=$langMask'>$MSG_SUBMIT</a>]";
 }
 echo "[<a href='problemstatus.php?id=".$row['problem_id']."'>$MSG_STATUS</a>]";
 //echo "[<a href='bbs.php?pid=".$row['problem_id']."$ucid'>$MSG_BBS</a>]";

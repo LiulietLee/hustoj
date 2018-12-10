@@ -25,7 +25,7 @@ $lock = false;
 $lock_time = date("Y-m-d H:i:s", time());
 $sql = "WHERE problem_id>0 ";
 if (isset($_GET['cid'])) {
-    $cid = intval($_GET['cid']);
+    $cid = intval($_GET['cid'], ENT_QUOTES);
     $sql = $sql . " AND `contest_id`='$cid' and num>=0 ";
     $str2 = $str2 . "&cid=$cid";
     $sql_lock = "SELECT `start_time`,`title`,`end_time` FROM `contest` WHERE `contest_id`=?";
@@ -35,6 +35,8 @@ if (isset($_GET['cid'])) {
     $end_time = 0;
     if ($rows_cnt > 0) {
         $row = $result[0];
+        print_r($row);
+        echo "hello";
         $start_time = strtotime($row[0]);
         $title = $row[1];
         $end_time = strtotime($row[2]);
@@ -71,7 +73,7 @@ $order_str = " ORDER BY `solution_id` DESC ";
 
 // check the top arg
 if (isset($_GET['top'])) {
-    $top = strval(intval($_GET['top']));
+    $top = strval(intval(htmlspecialchars($_GET['top'], ENT_QUOTES)));
     if ($top != -1) $sql = $sql . "AND `solution_id`<='" . $top . "' ";
 }
 
@@ -86,20 +88,22 @@ if (isset($_GET['problem_id']) && $_GET['problem_id'] != "") {
         $str2 = $str2 . "&problem_id=" . $problem_id;
 
     } else {
-        $problem_id = strval(intval($_GET['problem_id']));
+        $problem_id = htmlentities(strval(intval($_GET['problem_id'])));
         if ($problem_id != '0') {
             $sql = $sql . "AND `problem_id`='" . $problem_id . "' ";
             $str2 = $str2 . "&problem_id=" . $problem_id;
         } else $problem_id = "";
     }
 }
+
 // check the user_id arg
 $user_id = "";
 if (isset($OJ_ON_SITE_CONTEST_ID) && $OJ_ON_SITE_CONTEST_ID > 0 && !isset($_SESSION[$OJ_NAME . '_' . 'administrator'])) {
     $_GET['user_id'] = $_SESSION[$OJ_NAME . '_' . 'user_id'];
 }
+
 if (isset($_GET['user_id'])) {
-    $user_id = trim($_GET['user_id']);
+    $user_id = htmlspecialchars(trim($_GET['user_id']), ENT_QUOTES);
     if (is_valid_user_name($user_id) && $user_id != "") {
         if ($OJ_MEMCACHE) {
             $sql = $sql . "AND `user_id`='" . addslashes($user_id) . "' ";
@@ -108,8 +112,11 @@ if (isset($_GET['user_id'])) {
         }
         if ($str2 != "") $str2 = $str2 . "&";
         $str2 = $str2 . "user_id=" . urlencode($user_id);
-    } else $user_id = "";
+    } else {
+        $user_id = "";
+    }
 }
+
 if (isset($_GET['language'])) $language = intval($_GET['language']);
 else $language = -1;
 
@@ -132,7 +139,7 @@ if ($OJ_SIM) {
     // $old=$sql;
     $sql = "select * from solution solution left join `sim` sim on solution.solution_id=sim.s_id " . $sql;
     if (isset($_GET['showsim']) && intval($_GET['showsim']) > 0) {
-        $showsim = intval($_GET['showsim']);
+        $showsim = intval(htmlspecialchars($_GET['showsim'], ENT_QUOTES));
         $sql .= " and sim.sim>=$showsim";
         $str2 .= "&showsim=$showsim";
     }
@@ -172,6 +179,7 @@ $last = 0;
 for ($i = 0; $i < $rows_cnt; $i++) {
 
     $row = $result[$i];
+    echo "hello". "<br>";
     //$view_status[$i]=$row;
     if ($i == 0 && $row['result'] < 4) $last = $row['solution_id'];
 
@@ -189,7 +197,6 @@ for ($i = 0; $i < $rows_cnt; $i++) {
     $view_status[$i][0] = $row['solution_id'];
 
     if ($row['contest_id'] > 0) {
-
         if (isset($_SESSION[$OJ_NAME . '_' . 'administrator']))
             $view_status[$i][1] = "<a href='contestrank.php?cid=" . $row['contest_id'] . "&user_id=" . $row['user_id'] . "#" . $row['user_id'] . "' title='" . $row['ip'] . "'>" . $row['user_id'] . "</a>";
         else

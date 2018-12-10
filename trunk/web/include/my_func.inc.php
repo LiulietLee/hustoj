@@ -167,5 +167,17 @@ function RemoveXSS($val) {
    return $val;
 }
 
-
+function isCSRFKeyValid() {
+    global $OJ_NAME;
+    if (
+        isset($_SESSION[$OJ_NAME . '_' . 'csrf_keys'])
+        && is_array($_SESSION[$OJ_NAME . '_' . 'csrf_keys'])
+        && isset($_REQUEST['csrf'])
+        && in_array($_REQUEST['csrf'], $_SESSION[$OJ_NAME . '_' . 'csrf_keys'])
+    ) {
+        return true;
+    } else {
+        return false;
+    }
+}
 ?>
