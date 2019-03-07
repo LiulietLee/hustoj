@@ -2,16 +2,20 @@
 	require_once("./include/my_func.inc.php");
     
 	function check_login($user_id,$password){
-		global $view_errors,$OJ_EXAM_CONTEST_ID,$MSG_WARNING_DURING_EXAM_NOT_ALLOWED,$MSG_WARNING_LOGIN_FROM_DIFF_IP;	
+		global $view_errors,$OJ_EXAM_CONTEST_ID,$MSG_WARNING_DURING_EXAM_NOT_ALLOWED,$MSG_WARNING_LOGIN_FROM_DIFF_IP, $OJ_NAME;
 		$pass2 = 'No Saved';
 		session_destroy();
 		session_start();
-		$sql="SELECT `user_id`,`password` FROM `users` WHERE `user_id`=? and defunct='N' ";
+		$sql="SELECT `user_id`,`password`, `reading_authority` FROM `users` WHERE `user_id`=? and defunct='N' ";
 		$result=pdo_query($sql,$user_id);
 		if(count($result)==1){
 			$row = $result[0];
 			if( pwCheck($password,$row['password'])){
 				$user_id=$row['user_id'];
+
+				// set reading authority of user here.
+				$_SESSION[$OJ_NAME. '_reading_authority'] = $row['reading_authority'];
+
 				$ip = ($_SERVER['REMOTE_ADDR']);
 				if( !empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ){
 				    $REMOTE_ADDR = $_SERVER['HTTP_X_FORWARDED_FOR'];

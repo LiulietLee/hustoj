@@ -101,6 +101,7 @@ $MSG_VCODE = "验证码";
 
 //problem.php
 $MSG_NO_SUCH_PROBLEM = "题目不可用!";
+$MSG_READING_AUTH_ERROR = "访问时出错，该内容可能已被删除。";
 $MSG_Description = "题目描述";
 $MSG_Input = "输入";
 $MSG_Output = "输出";
@@ -197,6 +198,7 @@ $MSG_HELP_CE = "编译错误，请点击后获得编译器的详细输出";
 
 $MSG_HELP_MORE_TESTDATA_LATER = "更多组测试数据，请在题目添加完成后补充";
 $MSG_HELP_SPJ = "特殊裁判的使用，请参考<a href='https://cn.bing.com/search?q=hustoj+special+judge' target='_blank'>搜索hustoj special judge</a>";
+$MSG_READING_AUTH = "所需阅读权限 (0~10000)";
 $MSG_HELP_BALLOON_SCHOOL = "打印，气球帐号的School字段用于过滤任务列表，例如填zjicm则只显示帐号为zjicm开头的任务";
 
 $MSG_WARNING_LOGIN_FROM_DIFF_IP = "从不同的ip地址登录";

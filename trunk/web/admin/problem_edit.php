@@ -77,6 +77,12 @@ include_once("kindeditor.php") ;
           <?php echo "<h4>".$MSG_SOURCE."</h4>"?>
           <textarea name=source style="width:100%;" rows=1><?php echo htmlentities($row['source'],ENT_QUOTES,"UTF-8")?></textarea><br><br>
         </p>
+
+        <p align=left>
+            <?php echo "<h4>".$MSG_READING_AUTH."</h4>"?>
+            <input name=reading_authority value=<?php echo intval($row['reading_authority']); ?>><br><br>
+        </p>
+
         <div align=center>
           <?php require_once("../include/set_post_key.php");?>
           <input type=submit value=Submit name=submit>
@@ -119,6 +125,8 @@ include_once("kindeditor.php") ;
       $source=$_POST['source'];
       $spj=$_POST['spj'];
 
+      $readingAuth = max(0, min(intval($_POST['reading_authority']), 10000));
+
       if(get_magic_quotes_gpc()){
         $title = stripslashes($title);
         $time_limit = stripslashes($time_limit);
@@ -159,10 +167,10 @@ include_once("kindeditor.php") ;
       $spj=intval($spj);
   
       $sql="UPDATE `problem` set `title`=?,`time_limit`=?,`memory_limit`=?,
-                   `description`=?,`input`=?,`output`=?,`sample_input`=?,`sample_output`=?,`hint`=?,`source`=?,`spj`=?,`in_date`=NOW()
+                   `description`=?,`input`=?,`output`=?,`sample_input`=?,`sample_output`=?,`hint`=?,`source`=?,`spj`=?,`in_date`=NOW(), `reading_authority`=? 
             WHERE `problem_id`=?";
 
-      @pdo_query($sql,$title,$time_limit,$memory_limit,$description,$input,$output,$sample_input,$sample_output,$hint,$source,$spj,$id) ;
+      @pdo_query($sql,$title,$time_limit,$memory_limit,$description,$input,$output,$sample_input,$sample_output,$hint,$source,$spj, $readingAuth, $id);
       echo "Edit OK!";
       echo "<a href='../problem.php?id=$id'>See The Problem!</a>";
     }

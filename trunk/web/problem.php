@@ -36,6 +36,20 @@ if(isset($_GET['id'])){
 
   $pr_flag=true;
   $result=pdo_query($sql,$id);
+
+  // MARK: - 权限相关
+  if (count($result) > 0) {
+    $authority = $result[0]['reading_authority'];
+    if ($authority != null && $authority > 0 && !isset($_SESSION[$OJ_NAME.'_administrator'])) {
+      $userAuth = intval($_SESSION[$OJ_NAME.'_reading_authority']);
+      if ($userAuth < $authority) {
+        $view_errors="<title>$MSG_READING_AUTH_ERROR</title><h2>$MSG_READING_AUTH_ERROR</h2>";
+        require("template/".$OJ_TEMPLATE."/error.php");
+        exit(0);
+      }
+    }
+  }
+
 }else if(isset($_GET['cid']) && isset($_GET['pid'])){
   // contest
   $cid=intval($_GET['cid']);

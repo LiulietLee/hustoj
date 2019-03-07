@@ -20,6 +20,7 @@ if (get_magic_quotes_gpc()) {
 }
 $sql = "SELECT `rightstr` FROM `privilege` WHERE `user_id`=?";
 $login = check_login($user_id, $password);
+
 if ($login) {
     $_SESSION[$OJ_NAME . '_' . 'user_id'] = $login;
     $result = pdo_query($sql, $login);

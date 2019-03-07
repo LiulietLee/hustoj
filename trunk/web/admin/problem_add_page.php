@@ -76,6 +76,12 @@
           <?php echo "<h4>".$MSG_SOURCE."</h4>"?>
           <textarea name=source style="width:100%;" rows=1></textarea><br><br>
         </p>
+
+        <p align=left>
+            <?php echo "<h4>".$MSG_READING_AUTH."</h4>"?>
+            <input name=reading_authority value="0"><br><br>
+        </p>
+
         <p align=left><?php echo "<h4>".$MSG_CONTEST."</h4>"?>
           <select name=contest_id>
             <?php
