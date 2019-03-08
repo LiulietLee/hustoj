@@ -85,8 +85,8 @@ if( !empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ){
 if(isset($OJ_REG_NEED_CONFIRM)&&$OJ_REG_NEED_CONFIRM) $defunct="Y";
 else $defunct="N";
 $sql="INSERT INTO `users`("
-."`user_id`,`email`,`ip`,`accesstime`,`password`,`reg_time`,`nick`,`school`,`defunct`)"
-."VALUES(?,?,?,NOW(),?,NOW(),?,?,?)";
+."`user_id`,`email`,`ip`,`accesstime`,`password`,`reg_time`,`nick`,`school`,`defunct`, `reading_authority`)"
+."VALUES(?,?,?,NOW(),?,NOW(),?,?,?, 0)";
 $rows=pdo_query($sql,$user_id,$email,$ip,$password,$nick,$school,$defunct);// or die("Insert Error!\n");
 
 $sql="INSERT INTO `loginlog` VALUES(?,?,?,NOW())";
