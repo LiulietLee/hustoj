@@ -85,7 +85,7 @@ mypie.drawPie(y,x);
 //mypie.clearPie();
 </script>
 <tr ><td>School:<td align=center><?php echo $school?></tr>
-<tr ><td>Email:<td align=center>***<?php// echo $email?></tr>
+<tr ><td>Email:<td align=center><?php echo $email?></tr>
 </table>
 <?php
 if(isset($_SESSION[$OJ_NAME.'_'.'administrator'])){
