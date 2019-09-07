@@ -112,7 +112,7 @@ if ($OJ_ONLINE) {
                         </a>
                     </li>
                 <?php } else { ?>
-                    <li <?php if ($url == "contest.php") echo " $ACTIVE"; ?>>
+                    <li <?php if ($url == "contest.php" && $_GET['hw'] !== '1') echo " $ACTIVE"; ?>>
                         <a href="<?php
                         echo $path_fix. "contest.php";
                         echo "?cid=" . intval($OJ_ON_SITE_CONTEST_ID); ?>">
@@ -122,7 +122,7 @@ if ($OJ_ONLINE) {
                     </li>
                 <?php } ?>
 
-                <?php if (isset($_GET['cid'])) {
+                <?php if (isset($_GET['cid']) && $_GET['hw'] !== '1') {
                     $cid = intval($_GET['cid']);
                     ?>
                     <li><a>[</a></li>
@@ -158,37 +158,37 @@ if ($OJ_ONLINE) {
                     <li><a>]</a></li>
                 <?php } ?>
 
-                <li <?php if ($url == "homework.php") echo " $ACTIVE"; ?>>
-                    <a href="<?php echo $path_fix ?>homework.php">
+                <li <?php if ($url == "contest.php" && $_GET['hw'] === '1') echo " $ACTIVE"; ?>>
+                    <a href="<?php echo $path_fix ?>contest.php?hw=1">
                         <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
                         <?php echo $MSG_HOMEWORK ?>
                     </a>
                 </li>
 
-                <?php if (isset($_GET['hid'])) {
-                    $hid = intval($_GET['hid']);
+                <?php if (isset($_GET['cid']) && $_GET['hw'] === '1') {
+                    $cid = intval($_GET['cid']);
                     ?>
                     <li><a>[</a></li>
                     <li class="active">
-                        <a href="<?php echo $path_fix ?>homework.php?hid=<?php echo $hid ?>">
+                        <a href="<?php echo $path_fix ?>contest.php?hw=1&cid=<?php echo $cid ?>">
                             <?php echo $MSG_PROBLEMS ?>
                         </a>
                     </li>
 
                     <li class="active">
-                        <a href="<?php echo $path_fix ?>status.php?hid=<?php echo $hid ?>">
+                        <a href="<?php echo $path_fix ?>status.php?hw=1&cid=<?php echo $cid ?>">
                             <?php echo $MSG_STATUS ?>
                         </a>
                     </li>
 
                     <li class="active">
-                        <a href="<?php echo $path_fix ?>homeworkrank-oi.php?hid=<?php echo $hid ?>">
+                        <a href="<?php echo $path_fix ?>contestrank-oi.php?hw=1&hid=<?php echo $cid ?>">
                             OI<?php echo $MSG_RANKLIST ?>
                         </a>
                     </li>
 
                     <li class="active">
-                        <a href="<?php echo $path_fix ?>homeworkstatistics.php?hid=<?php echo $hid ?>">
+                        <a href="<?php echo $path_fix ?>conteststatistics.php?hw=1&cid=<?php echo $cid ?>">
                             <?php echo $MSG_STATISTICS ?>
                         </a>
                     </li>

@@ -47,9 +47,9 @@ else
 echo "&nbsp;&nbsp;<span class=red>Private</font>";
 ?>
 <br>
-[<a href='status.php?cid=<?php echo $view_cid?>'>Status</a>]
-[<a href='contestrank.php?cid=<?php echo $view_cid?>'>Standing</a>]
-[<a href='conteststatistics.php?cid=<?php echo $view_cid?>'>Statistics</a>]
+[<a href='status.php?<?php echo $hwQuery ?>cid=<?php echo $view_cid?>'>Status</a>]
+[<a href='contestrank.php?<?php echo $hwQuery ?>cid=<?php echo $view_cid?>'>Standing</a>]
+[<a href='conteststatistics.php?<?php echo $hwQuery ?>cid=<?php echo $view_cid?>'>Statistics</a>]
 </div>
 <table id='problemset' class='table table-striped'  width='90%'>
 <thead>
