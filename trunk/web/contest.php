@@ -13,37 +13,8 @@ require_once('./include/const.inc.php');
 require_once('./include/setlang.php');
 $view_title= $MSG_CONTEST;
 
-function formatTimeLength($length)
-{
-  $hour = 0;
-  $minute = 0;
-  $second = 0;
-  $result = '';
-
-  if($length >= 60){
-    $second = $length%60;
-    if($second > 0){ $result = $second.'秒';}
-    $length = floor($length/60);
-    if($length >= 60){
-      $minute = $length%60;
-      if($minute == 0){ if($result != ''){ $result = '0分' . $result;}}
-      else{ $result = $minute.'分'.$result;}
-      $length = floor($length/60);
-      if($length >= 24){
-      	$hour = $length%24;
-        if($hour == 0){ if($result != ''){ $result = '0小时' . $result;}}
-        else{ $result = $hour . '小时' . $result;}
-        $length = floor($length / 24);
-        $result = $length . '天' . $result;
-      }
-      else{ $result = $length . '小时' . $result;}
-    }
-    else{ $result = $length . '分' . $result;}
-  }
-  else{ $result = $length . '秒';
-  }
-  return $result;
-}
+$homeworkCheck = (isset($_GET['hw'])) ? intval($_GET['hw']) : 0;
+$hwQuery = (isset($homeworkCheck) && $homeworkCheck == 1) ? "hw=1&" : "";
 
 if(isset($_GET['cid'])){
   $cid = intval($_GET['cid']);
@@ -51,18 +22,20 @@ if(isset($_GET['cid'])){
   //print $cid;
 
   //check contest valid
-  $sql = "SELECT * FROM `contest` WHERE `contest_id`=?";
-  $result = pdo_query($sql,$cid);
+  $sql = "SELECT * FROM `contest` WHERE `contest_id`=? AND `homework`=?";
+  $result = pdo_query($sql,$cid, $homeworkCheck);
 
   $rows_cnt = count($result);
   $contest_ok = true;
   $password = "";
 
   if(isset($_POST['password'])) $password = $_POST['password'];
-  if(get_magic_quotes_gpc ()){ $password = stripslashes($password);}
+  if(get_magic_quotes_gpc()){ $password = stripslashes($password);}
 
   if($rows_cnt==0){
     $view_title = "比赛已经关闭!";
+    header("Location: /contest.php?$hwQuery");
+    exit();
   }else{
     $row = $result[0];
     $view_private = $row['private'];
@@ -75,10 +48,7 @@ if(isset($_GET['cid'])){
     $now = time();
     $start_time = strtotime($row['start_time']);
     $end_time = strtotime($row['end_time']);
-    $view_description = $row['description'];
     $view_title = $row['title'];
-    $view_start_time = $row['start_time'];
-    $view_end_time = $row['end_time'];
 
     if(!isset($_SESSION[$OJ_NAME.'_'.'administrator']) && $now<$start_time){
       $view_errors =  "<h2>$MSG_PRIVATE_WARNING</h2>";
@@ -88,8 +58,8 @@ if(isset($_GET['cid'])){
   }
 
   if(!$contest_ok){
-    $view_errors =  "<h2>$MSG_PRIVATE_WARNING <br><a href=contestrank.php?cid=$cid>$MSG_WATCH_RANK</a></h2>";
-    $view_errors .=  "<form method=post action='contest.php?cid=$cid'>$MSG_CONTEST $MSG_PASSWORD:<input class=input-mini type=password name=password><input class=btn type=submit></form>";
+    $view_errors =  "<h2>$MSG_PRIVATE_WARNING <br><a href=contestrank.php?". $hwQuery. "cid=$cid>$MSG_WATCH_RANK</a></h2>";
+    $view_errors .=  "<form method=post action='contest.php?". $hwQuery. "cid=$cid'>$MSG_CONTEST $MSG_PASSWORD:<input class=input-mini type=password name=password><input class=btn type=submit></form>";
     require("template/".$OJ_TEMPLATE."/error.php");
     exit(0);
   }
@@ -106,7 +76,7 @@ if(isset($_GET['cid'])){
     if(isset($_SESSION[$OJ_NAME.'_'.'user_id'])) $view_problemset[$cnt][0] = check_ac($cid,$cnt);
 
     $view_problemset[$cnt][1] = $row['pid']." Problem &nbsp;".$PID[$cnt];
-    $view_problemset[$cnt][2] = "<a href='problem.php?cid=$cid&pid=$cnt'>".$row['title']."</a>";
+    $view_problemset[$cnt][2] = "<a href='problem.php?". $hwQuery. "cid=$cid&pid=$cnt'>".$row['title']."</a>";
     $view_problemset[$cnt][3] = $row['source'];
     $view_problemset[$cnt][4] = $row['accepted'];
     $view_problemset[$cnt][5] = $row['submit'] ;
@@ -118,7 +88,7 @@ if(isset($_GET['cid'])){
   $page_cnt = 10;
   $pstart = $page_cnt*$page-$page_cnt;
   $pend = $page_cnt;
-  $rows = pdo_query("select count(1) from contest where defunct='N'");
+  $rows = pdo_query("select count(1) from contest where defunct='N' and homework=?", $homeworkCheck);
 
   if($rows) $total = $rows[0][0];
   $view_total_page = intval($total/$page_cnt)+1;
@@ -143,16 +113,16 @@ if(isset($_GET['cid'])){
   $wheremy = "";
   if(isset($_GET['my'])) $wheremy=" and contest_id in ($mycontests)";
 
-  $sql = "SELECT * FROM `contest` WHERE `defunct`='N' ORDER BY `contest_id` DESC LIMIT 1000";
+  $sql = "SELECT * FROM `contest` WHERE `defunct`='N' AND `homework`=? ORDER BY `contest_id` DESC LIMIT 1000";
 
   if($keyword){
-    $sql = "SELECT *  FROM contest LEFT JOIN (SELECT * FROM privilege WHERE rightstr LIKE 'm%') p ON concat('m',contest_id)=rightstr WHERE contest.defunct='N' AND contest.title LIKE ? $wheremy  ORDER BY contest_id DESC";
+    $sql = "SELECT *  FROM contest LEFT JOIN (SELECT * FROM privilege WHERE rightstr LIKE 'm%') p ON concat('m',contest_id)=rightstr WHERE contest.defunct='N' AND homework=? AND contest.title LIKE ? $wheremy  ORDER BY contest_id DESC";
 	
 	$sql .= " limit ".strval($pstart).",".strval($pend); 
 
-	$result = pdo_query($sql,$keyword);
+	$result = pdo_query($sql, $homeworkCheck, $keyword);
   }else{
-    $sql = "SELECT *  FROM contest LEFT JOIN (SELECT * FROM privilege WHERE rightstr LIKE 'm%') p ON concat('m',contest_id)=rightstr WHERE contest.defunct='N' $wheremy  ORDER BY contest_id DESC";
+    $sql = "SELECT *  FROM contest LEFT JOIN (SELECT * FROM privilege WHERE rightstr LIKE 'm%') p ON concat('m',contest_id)=rightstr WHERE contest.defunct='N' AND homework=$homeworkCheck $wheremy  ORDER BY contest_id DESC";
 	$sql .= " limit ".strval($pstart).",".strval($pend); 
 	$result = mysql_query_cache($sql);
   }
@@ -162,7 +132,7 @@ if(isset($_GET['cid'])){
 
   foreach($result as $row){
     $view_contest[$i][0] = $row['contest_id'];
-    $view_contest[$i][1] = "<a href='contest.php?cid=".$row['contest_id']."'>".$row['title']."</a>";
+    $view_contest[$i][1] = "<a href='contest.php?". $hwQuery. "cid=".$row['contest_id']."'>".$row['title']."</a>";
     $start_time = strtotime($row['start_time']);
     $end_time = strtotime($row['end_time']);
     $now = time();
