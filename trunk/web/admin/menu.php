@@ -47,8 +47,19 @@
   if (isset($_SESSION[$OJ_NAME.'_'.'administrator'])||isset($_SESSION[$OJ_NAME.'_'.'contest_creator'])){?>
   <li><a class='btn btn-primary' href="contest_list.php" target="main"  title="<?php echo $MSG_HELP_CONTEST_LIST?>"><b><?php echo $MSG_CONTEST.$MSG_LIST?></b></a>
   <li><a class='btn btn-primary' href="contest_add.php" target="main"  title="<?php echo $MSG_HELP_ADD_CONTEST?>"><b><?php echo $MSG_ADD.$MSG_CONTEST?></b></a>
-  <?php }
-  if (isset($_SESSION[$OJ_NAME.'_'.'administrator'])){?>
+  <?php } ?>
+
+        <?php
+        if (
+                isset($_SESSION[$OJ_NAME.'_'.'administrator']) ||
+                isset($_SESSION[$OJ_NAME.'_'.'homework_creator']))
+        { ?>
+            <li><a class='btn btn-primary' href="homework_list.php" target="main"  title="<?php echo $MSG_HELP_CONTEST_LIST?>"><b>作业列表</b></a>
+            <li><a class='btn btn-primary' href="homework_add.php" target="main"  title="<?php echo $MSG_HELP_ADD_CONTEST?>"><b>添加作业</b></a>
+        <?php } ?>
+
+
+  <?php if (isset($_SESSION[$OJ_NAME.'_'.'administrator'])){?>
   <li><a class='btn btn-primary' href="team_generate.php" target="main" title="<?php echo $MSG_HELP_TEAMGENERATOR?>"><b><?php echo $MSG_TEAMGENERATOR?></b></a>
   <?php }
   if (isset($_SESSION[$OJ_NAME.'_'.'administrator'])){?>

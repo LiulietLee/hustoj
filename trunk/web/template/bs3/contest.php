@@ -27,7 +27,11 @@
       <div class="jumbotron">
 <center>
 <div>
-<h3>Contest<?php echo $view_cid?> - <?php echo $view_title ?></h3>
+<h3><?php
+    if ($homeworkCheck) echo "Homework";
+    else echo "Contest";
+    echo $view_cid
+    ?> - <?php echo $view_title ?></h3>
 <p><?php echo $view_description?></p>
 <br>Start Time: <font color=#993399><?php echo $view_start_time?></font>
 End Time: <font color=#993399><?php echo $view_end_time?></font><br>

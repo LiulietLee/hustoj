@@ -19,7 +19,7 @@ if(isset($OJ_LANG)){
 <div class='container'>
 
 <?php
-$sql = "SELECT COUNT('contest_id') AS ids FROM `contest`";
+$sql = "SELECT COUNT('contest_id') AS ids FROM `contest` WHERE homework=0";
 $result = pdo_query($sql);
 $row = $result[0];
 
@@ -43,10 +43,10 @@ $sql = "";
 if(isset($_GET['keyword']) && $_GET['keyword']!=""){
   $keyword = $_GET['keyword'];
   $keyword = "%$keyword%";
-  $sql = "SELECT `contest_id`,`title`,`start_time`,`end_time`,`private`,`defunct` FROM `contest` WHERE (title LIKE ?) OR (description LIKE ?) ORDER BY `contest_id` DESC";
+  $sql = "SELECT `contest_id`,`title`,`start_time`,`end_time`,`private`,`defunct` FROM `contest` WHERE WHERE homework=0 AND (title LIKE ?) OR (description LIKE ?) ORDER BY `contest_id` DESC";
   $result = pdo_query($sql,$keyword,$keyword);
 }else{
-  $sql = "SELECT `contest_id`,`title`,`start_time`,`end_time`,`private`,`defunct` FROM `contest` ORDER BY `contest_id` DESC LIMIT $sid, $idsperpage";
+  $sql = "SELECT `contest_id`,`title`,`start_time`,`end_time`,`private`,`defunct` FROM `contest`  WHERE homework=0 ORDER BY `contest_id` DESC LIMIT $sid, $idsperpage";
   $result = pdo_query($sql);
 }
 ?>

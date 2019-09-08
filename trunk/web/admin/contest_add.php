@@ -53,8 +53,8 @@ if(isset($_POST['startdate'])){
   $langmask = ((1<<count($language_ext))-1)&(~$langmask);
   //echo $langmask; 
 
-  $sql = "INSERT INTO `contest`(`title`,`start_time`,`end_time`,`private`,`langmask`,`description`,`password`)
-          VALUES(?,?,?,?,?,?,?)";
+  $sql = "INSERT INTO `contest`(`title`,`start_time`,`end_time`,`private`,`langmask`,`description`,`password`, `homework`)
+          VALUES(?,?,?,?,?,?,?, 0)";
 
   $description = str_replace("<p>", "", $description); 
   $description = str_replace("</p>", "<br />", $description);
@@ -101,7 +101,7 @@ if(isset($_POST['startdate'])){
 else{
   if(isset($_GET['cid'])){
     $cid = intval($_GET['cid']);
-    $sql = "SELECT * FROM contest WHERE `contest_id`=?";
+    $sql = "SELECT * FROM contest WHERE `contest_id`=? AND homework=0";
     $result = pdo_query($sql,$cid);
     $row = $result[0];
     $title = $row['title']."-Copy";

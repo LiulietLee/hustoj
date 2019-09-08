@@ -13,8 +13,9 @@ $("document").ready(function (){
 
 </script>
 <?php if (!(isset($_SESSION[$OJ_NAME.'_'.'administrator'])||
-			isset($_SESSION[$OJ_NAME.'_'.'contest_creator'])||
-			isset($_SESSION[$OJ_NAME.'_'.'problem_editor']))){
+    isset($_SESSION[$OJ_NAME.'_'.'contest_creator'])||
+    isset($_SESSION[$OJ_NAME.'_'.'homework_creator'])||
+    isset($_SESSION[$OJ_NAME.'_'.'problem_editor']))){
 	echo "<a href='../loginpage.php'>Please Login First!</a>";
 	exit(1);
 }

@@ -45,7 +45,7 @@ header("Pragma: no-cache");
 					$profile.= "<a href=./registerpage.php>$MSG_REGISTER</a>&nbsp;";
 				}
 			}
-			if (isset($_SESSION[$OJ_NAME.'_'.'administrator'])||isset($_SESSION[$OJ_NAME.'_'.'contest_creator'])||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])){
+			if (isset($_SESSION[$OJ_NAME.'_'.'administrator'])||isset($_SESSION[$OJ_NAME.'_'.'contest_creator'])||isset($_SESSION[$OJ_NAME.'_'.'problem_editor'])||isset($_SESSION[$OJ_NAME.'_'.'homework_creator'])){
            $profile.= "<a href=./admin/>$MSG_ADMIN</a>&nbsp;";
 			
 			}
