@@ -24,8 +24,9 @@
     <div class="container">
     <?php include("template/$OJ_TEMPLATE/nav.php");?>	    
       <!-- Main component for a primary marketing message or call to action -->
+      <h2>如果需要找回密码请直接联系管理员。</h2>
       <div class="jumbotron">
- <form action=lostpassword.php method=post>
+ <form action='/' method=post>
 <center>
 <table width=400 algin=center>
 <tr><td width=200><?php echo $MSG_USER_ID?>:<td width=200><input name="user_id" type="text" size=20></tr>
