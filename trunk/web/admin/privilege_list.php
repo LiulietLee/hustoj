@@ -19,7 +19,7 @@ if(isset($OJ_LANG)){
 <div class='container'>
 
 <?php
-$sql = "SELECT COUNT(*) AS ids FROM privilege WHERE rightstr IN ('administrator','source_browser','contest_creator','http_judge','problem_editor','password_setter','printer','balloon') ORDER BY user_id, rightstr";
+$sql = "SELECT COUNT(*) AS ids FROM privilege WHERE rightstr IN ('administrator','source_browser','contest_creator','http_judge','problem_editor','password_setter','printer','balloon','homework_creator') ORDER BY user_id, rightstr";
 $result = pdo_query($sql);
 $row = $result[0];
 
